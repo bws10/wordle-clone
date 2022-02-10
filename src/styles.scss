@@ -9,24 +9,43 @@ $header-height: 50px;
 $keyboard-height: 200px;
 $game-max-width: 500px;
 
-* *::before *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 body {
   font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
-  background: #000;
-  font-size: 1rem;
-}
-.game {
-  width: 100%;
-  max-width: $game-max-width;
-  margin: 0 auto;
-  height: 100%;
+  background: $correct;
+  font-size: clamp(0.5rem, 2.5vmin, 1.5rem); /* mobile viewport bug fix */
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
   display: flex;
   align-items: center;
-  justify-content: center;
+
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+html {
+  height: -webkit-fill-available;
+}
+.game {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  background: #000;
+  //max-width: $game-max-width;
+  margin: 0;
+  height: 100vh;
+  height: -webkit-fill-available;
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
+  justify-content: space-between;
   flex-direction: column;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 .header {
@@ -156,15 +175,17 @@ body {
   grid-row-gap: 8px;
   padding-top: 10px;
   height: $keyboard-height;
-  width: 484px;
+  width: 97%;
+  max-width: $game-max-width;
   margin: 0 8px;
   box-sizing: border-box;
+  touch-action: manipulation;
 }
 
 .key {
   grid-column: span 2;
   font-family: inherit;
-
+  touch-action: manipulation;
   font-weight: bold;
   border: 0;
   padding: 0;
@@ -190,9 +211,11 @@ body {
 .key[data-state="absent"] {
   background-color: $absent;
 }
-.key:hover {
-  background-color: darken($key-bg, 15%);
-}
+// @supports not (-webkit-touch-callout: none) {
+//   .key:hover {
+//     background-color: darken($key-bg, 15%);
+//   }
+// }
 .key[data-state="present"]:hover {
   background-color: darken($present, 10%);
 }
@@ -244,6 +267,9 @@ body {
   opacity: 0;
   transition: opacity 500ms ease-in-out;
   margin-bottom: 0.5rem;
+  white-space: pre;
+  text-align: center;
+  line-height: 1.25rem;
 }
 
 .alert-W-L:last-child {
@@ -254,4 +280,14 @@ body {
 }
 .alert-W-L.hide {
   opacity: 0;
+}
+.alert-W-L.win {
+  background-color: $correct;
+  color: $key-color;
+  border: 3px solid $key-color;
+}
+.alert-W-L.lose {
+  background-color: $present;
+  color: $key-color;
+  border: 3px solid $key-color;
 }

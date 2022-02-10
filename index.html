@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/styles.css" />
-    <script src="./src/script.js" type="module"></script>
+    <script src="./src/script.js" defer></script>
     <title>Wordle Clone</title>
   </head>
   <body>
@@ -88,6 +88,7 @@
         <button class="key" data-state="empty" data-key="M">M</button>
         <button class="key big-key" data-delete="Backspace">
           <svg
+            data-delete
             xmlns="http://www.w3.org/2000/svg"
             height="24"
             viewBox="0 0 24 24"
