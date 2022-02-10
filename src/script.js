@@ -13020,6 +13020,7 @@ function startInteraction() {
   keyButtons.forEach((b) => {
     b.addEventListener("click", handleClick);
   });
+  // docunmet.addEventListener("click", handleClick);
   document.addEventListener("keydown", handleKeypress);
 }
 
@@ -13027,10 +13028,12 @@ function stopinteraction() {
   keyButtons.forEach((b) => {
     b.removeEventListener("click", handleClick);
   });
+  // document.removeEventListener("click", handleClick);
   document.removeEventListener("keydown", handleKeypress);
 }
 
 function handleClick(e) {
+  console.log(e.target);
   if (e.target.matches("[data-key]")) {
     pressKey(e.target.dataset.key);
     return;
