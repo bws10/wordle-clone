@@ -12994,7 +12994,7 @@ const loseMessages = [
 ];
 const WORD_LENGTH = 5;
 const ANIMATION_DURATION = 500;
-const offsetFromDate = new Date(2021, 10, 1);
+const offsetFromDate = new Date(2022, 1, 10);
 const msOffset = Date.now() - offsetFromDate;
 const dayOffet = Math.floor(msOffset / 1000 / 60 / 60 / 24);
 const targetWord = targetWordsArray[dayOffet];
@@ -13274,7 +13274,9 @@ var row5 = "";
 var row6 = "";
 
 const newLine = "\r\n";
-const shareTxtStart = `Will's Wordle ${targetWordsArray.indexOf(targetWord)}  `;
+const shareTxtStart = `Will's Wordle #${targetWordsArray.indexOf(
+  targetWord
+)}  `;
 var shareTxtStartWithRow = "";
 var shareTextBuild = "";
 var shareTextResult = "";
