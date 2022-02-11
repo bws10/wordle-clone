@@ -13282,7 +13282,7 @@ var shareTextBuild = "";
 var shareTextResult = "";
 // const shareBtn = document.querySelector("#share");
 const shareData = {
-  text: "Will's Wordle - A Clone of Wordle",
+  text: "",
   url: "https://bws10.github.io/wordle-clone/",
 };
 // // Share must be triggered by "user activation"
