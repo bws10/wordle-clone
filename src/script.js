@@ -13282,7 +13282,8 @@ var shareTextBuild = "";
 var shareTextResult = "";
 // const shareBtn = document.querySelector("#share");
 const shareData = {
-  text: "",
+  text: "Will's Wordle - A Clone of Wordle",
+  url: "https://bws10.github.io/wordle-clone/",
 };
 // // Share must be triggered by "user activation"
 // btn.addEventListener("click", async () =>
@@ -13322,6 +13323,12 @@ function checkWinLose(guess, tiles, eval) {
   if (guess === targetWord) {
     console.log(shareTextResult);
     shareData.text = shareTextResult;
+    const resultElement = document.createElement("div");
+    const modalContainer = document.querySelector(".modal-content");
+    resultElement.textContent = shareTextResult;
+    resultElement.classList.add("share-msg");
+    modalContainer.prepend(resultElement);
+
     var rand = Math.floor(Math.random() * winMessages.length);
 
     const winMsg = winMessages[rand];
@@ -13365,5 +13372,17 @@ function checkWinLose(guess, tiles, eval) {
         showAlertWinLose(msg, null, "lose");
       }, index * 1500);
     });
+  }
+}
+
+function openModal() {
+  modal.classList.add("show");
+  modal.addEventListener("click", closeModal);
+}
+
+function closeModal(e) {
+  if (e.target === modal) {
+    modal.classList.remove("show");
+    modal.removeEventListener("click", closeModal);
   }
 }

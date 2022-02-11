@@ -13,6 +13,7 @@ body {
   min-height: -webkit-fill-available;
   display: flex;
   align-items: center;
+  overflow: hidden;
   justify-content: space-between;
   flex-direction: column;
 }
@@ -23,9 +24,10 @@ html {
 
 .game {
   position: absolute;
-  top: 0;
+  top: 1px;
   width: 100vw;
   background: #000;
+  max-width: 500px;
   margin: 0;
   height: 100vh;
   height: -webkit-fill-available;
@@ -44,20 +46,34 @@ html {
   align-items: center;
   height: 50px;
   color: #d7dadc;
-  border-bottom: 1px solid #3a3a3c;
-  margin-bottom: 1rem;
   width: 100%;
+  max-width: 500px;
+  margin-top: 15px;
 }
 .header .title {
+  border-bottom: 1px solid #3a3a3c;
+  margin-bottom: 1rem;
+  padding: 1rem;
   font-weight: 700;
-  font-size: 36px;
+  font-size: 2rem;
   letter-spacing: 0.2rem;
   text-transform: uppercase;
   text-align: center;
   position: absolute;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
   pointer-events: none;
+  word-wrap: normal;
+  width: 100%;
+}
+.header .open-modal {
+  color: #d7dadc;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  position: absolute;
+  right: 0;
 }
 
 .game-grid {
@@ -321,13 +337,23 @@ html {
   background-color: #15291e;
   width: 80%;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   position: fixed;
   top: 20vh;
   bottom: 50vh;
   min-height: 50%;
   z-index: 3;
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.share-msg {
+  color: #d7dadc;
+  font-size: 1.15rem;
+  white-space: pre;
+  font-weight: bold;
 }
 
 .btn-share {
@@ -338,7 +364,7 @@ html {
   border: 2px solid #818384;
   padding: 0.5em;
   cursor: pointer;
-  font-size: 1.5em;
+  font-size: 1.5rem;
   font-weight: bold;
   z-index: 3;
   user-select: none;
