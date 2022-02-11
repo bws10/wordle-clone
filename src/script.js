@@ -12998,7 +12998,7 @@ const offsetFromDate = new Date(2021, 10, 1);
 const msOffset = Date.now() - offsetFromDate;
 const dayOffet = Math.floor(msOffset / 1000 / 60 / 60 / 24);
 const targetWord = targetWordsArray[dayOffet];
-
+const modal = document.querySelector(".modal");
 const keyboard = document.querySelector("[data-keyboard]");
 const keyButtons = keyboard.querySelectorAll("button");
 const alertContainer = document.querySelector("[data-alert-container]");
@@ -13166,7 +13166,7 @@ function flipTile(tile, index, array, guess) {
             if (nextRow != null) nextRow.dataset.active = "current";
             currentRow.dataset.active = "completed";
             startInteraction();
-            checkWinLose(guess, array);
+            checkWinLose(guess, array, evaluated);
           },
           { once: true }
         );
@@ -13216,21 +13216,40 @@ function showAlert(message, duration = 1000) {
     });
   }, duration);
 }
-function showAlertWinLose(message, duration = 1000, status, shareBtn) {
+function showAlertWinLose(message, duration = 1000, status, last = false) {
   const alert = document.createElement("div");
   alert.textContent = message;
   alert.classList.add("alert-W-L");
   alert.classList.add(status);
-  if (shareBtn != null) {
-    alert.dataset.share = "";
-    alert.append(shareBtn);
-    alert.addEventListener("click", handleShareClick);
-  }
   alertContainer.append(alert);
 
   setTimeout(() => {
     alert.classList.add("show");
   }, 100);
+  if (last === true) {
+    setTimeout(() => {
+      modal.classList.add("show");
+      modal.addEventListener("click", (e) => {
+        console.log(e.target);
+        if (e.target === modal) {
+          modal.classList.remove("show");
+          const allAlerts = document.querySelectorAll(".alert-W-L");
+          setTimeout(() => {
+            allAlerts.forEach((a) => {
+              a.classList.add("hide");
+              a.addEventListener(
+                "transitionend",
+                () => {
+                  a.remove();
+                },
+                { once: true }
+              );
+            });
+          }, 1000);
+        }
+      });
+    }, 2000);
+  }
   if (duration == null) return;
   alert.addEventListener("transitionend", () => {
     setTimeout(() => {
@@ -13247,69 +13266,67 @@ const yellowSquare = "🟨"; //1562
 const greenSquare = "🟩"; //1563
 const blackSquare = "⬛"; //1567
 
-var row1 =
-  blackSquare +
-  yellowSquare +
-  greenSquare +
-  yellowSquare +
-  blackSquare +
-  greenSquare;
-var row2 =
-  greenSquare +
-  greenSquare +
-  greenSquare +
-  greenSquare +
-  greenSquare +
-  greenSquare;
+var row1 = "";
+var row2 = "";
 var row3 = "";
 var row4 = "";
 var row5 = "";
 var row6 = "";
 
+const newLine = "\r\n";
+const shareTxtStart = `Will's Wordle ${targetWordsArray.indexOf(targetWord)}  `;
+var shareTxtStartWithRow = "";
+var shareTextBuild = "";
+var shareTextResult = "";
 // const shareBtn = document.querySelector("#share");
 const shareData = {
-  text: `Will's Wordle ${targetWordsArray.indexOf(
-    targetWord
-  )}  ${completedRows}/6\r\n\r\n${row1}\r\n${row2}\r\n${row3}\r\n${row4}\r\n${row5}\r\n${row6}`,
+  text: "",
 };
 // // Share must be triggered by "user activation"
 // btn.addEventListener("click", async () =>
-function handleShareClick() {
+async function handleShareClick() {
   console.log("Share buttone clicked");
-  // try {
-  //   await navigator.share(shareData);
-  // } catch (err) {
-  //   console.log("Error: " + err);
-  // }
+  try {
+    await navigator.share(shareData);
+  } catch (err) {
+    console.log("Error: " + err);
+  }
 }
 
-function checkWinLose(guess, tiles) {
+function checkWinLose(guess, tiles, eval) {
   var msgArr = [];
   completedRows = gameGrid.querySelectorAll('[data-active="completed"]').length;
+  for (let i = 0; i < eval.length; i++) {
+    switch (eval[i]) {
+      case "correct":
+        window["row" + completedRows] += greenSquare;
+        break;
+      case "present":
+        window["row" + completedRows] += yellowSquare;
+        break;
+      case "absent":
+        window["row" + completedRows] += blackSquare;
+        break;
+      default:
+        break;
+    }
+  }
+  shareTxtStartWithRow =
+    shareTxtStart + `${completedRows}/6` + newLine + newLine;
 
-  const shareBtn = document.createElement("div");
-  shareBtn.id = "share-btn";
-  shareBtn.textContent = "Share ";
-  shareBtn.dataset.share = "";
-  shareBtn.addEventListener("click", handleShareClick);
-  //<i class="fa-solid fa-share-nodes"></i>
-  const shareicon = document.createElement("i");
-  shareicon.classList.add("fa-solid");
-  shareicon.classList.add("fa-share-nodes");
-  shareicon.dataset.share = "";
-  shareicon.addEventListener("click", handleShareClick);
-  shareBtn.append(shareicon);
+  shareTextBuild += window["row" + completedRows] + newLine;
+  shareTextResult = shareTxtStartWithRow + shareTextBuild;
 
-  console.log(guess === targetWord);
   if (guess === targetWord) {
+    console.log(shareTextResult);
+    shareData.text = shareTextResult;
     var rand = Math.floor(Math.random() * winMessages.length);
-    console.log(rand);
+
     const winMsg = winMessages[rand];
     stopinteraction();
     msgArr = [
       winMsg,
       `Congratulations!\r\nYou solved today's word\r\nin ${completedRows}/6 tries`,
-      "",
     ];
     // showAlertWinLose(winMsg, null, "win");
     const i = msgArr.length - 1;
@@ -13317,9 +13334,9 @@ function checkWinLose(guess, tiles) {
     msgArr.forEach((msg, index) => {
       setTimeout(() => {
         if (index === i) {
-          showAlertWinLose(msg, null, "win", shareBtn);
+          showAlertWinLose(msg, null, "win", true);
         } else {
-          showAlertWinLose(msg, null, "win", null);
+          showAlertWinLose(msg, null, "win");
         }
       }, index * 1500);
     });

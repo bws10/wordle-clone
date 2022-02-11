@@ -13,7 +13,14 @@
     <title>Wordle Clone</title>
   </head>
   <body>
-    <div class="modal"></div>
+    <div class="modal">
+      <div class="modal-content">
+        <button class="btn-share" onclick="handleShareClick()">
+          Share
+          <i onclick="handleShareClick()" class="fa-solid fa-share-nodes"></i>
+        </button>
+      </div>
+    </div>
     <div class="game">
       <div class="header"><div class="title">WORDLE</div></div>
       <div class="alert-container" data-alert-container></div>

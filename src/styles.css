@@ -295,10 +295,51 @@ html {
   border: 3px solid #d7dadc;
 }
 
-div[data-share] {
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #000;
+  background: rgba(0, 0, 0, 0.575);
+  z-index: 2;
+  display: flex;
+  height: 0;
+  opacity: 0;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 500ms ease-in-out;
+}
+
+.modal.show {
+  height: auto;
+  opacity: 1;
+}
+
+.modal-content {
+  background-color: #15291e;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 20vh;
+  bottom: 50vh;
+  min-height: 50%;
+  z-index: 3;
+}
+
+.btn-share {
+  opacity: 1;
   position: relative;
+  background: #538d4e;
+  color: #d7dadc;
+  border: 2px solid #818384;
+  padding: 0.5em;
   cursor: pointer;
   font-size: 1.5em;
+  font-weight: bold;
   z-index: 3;
   user-select: none;
   touch-action: manipulation;
