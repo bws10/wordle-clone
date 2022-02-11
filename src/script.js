@@ -12976,7 +12976,6 @@ const dictionary = {
   10656: "zymic",
 };
 
-//const targetJSON = JSON.stringify(target);
 const targetWordsArray = Object.values(target);
 const dictionaryArray = Object.values(dictionary);
 const winMessages = [
@@ -12999,12 +12998,13 @@ const offsetFromDate = new Date(2021, 10, 1);
 const msOffset = Date.now() - offsetFromDate;
 const dayOffet = Math.floor(msOffset / 1000 / 60 / 60 / 24);
 const targetWord = targetWordsArray[dayOffet];
-
+const modal = document.querySelector(".modal");
 const keyboard = document.querySelector("[data-keyboard]");
 const keyButtons = keyboard.querySelectorAll("button");
 const alertContainer = document.querySelector("[data-alert-container]");
 const gameGrid = document.querySelector("[data-game-grid]");
-
+const gridTiles = document.querySelectorAll(".tile");
+var completedRows = 0;
 console.log(targetWord);
 startInteraction();
 
@@ -13166,7 +13166,7 @@ function flipTile(tile, index, array, guess) {
             if (nextRow != null) nextRow.dataset.active = "current";
             currentRow.dataset.active = "completed";
             startInteraction();
-            checkWinLose(guess, array);
+            checkWinLose(guess, array, evaluated);
           },
           { once: true }
         );
@@ -13175,31 +13175,173 @@ function flipTile(tile, index, array, guess) {
     { once: true }
   );
 }
+function shaketiles(tiles) {
+  tiles.forEach((tile) => {
+    tile.classList.add("shake");
+    tile.addEventListener(
+      "animationend",
+      () => {
+        tile.classList.remove("shake");
+      },
+      { once: true }
+    );
+  });
+}
+function danceTiles(tiles) {
+  tiles.forEach((tile, index) => {
+    setTimeout(() => {
+      tile.classList.add("dance");
+      tile.addEventListener(
+        "animationend",
+        () => {
+          tile.classList.remove("dance");
+        },
+        { once: true }
+      );
+    }, (index * ANIMATION_DURATION) / 5);
+  });
+}
+function showAlert(message, duration = 1000) {
+  const alert = document.createElement("div");
+  alert.textContent = message;
+  alert.classList.add("alert");
+  alertContainer.prepend(alert);
 
-function checkWinLose(guess, tiles) {
+  if (duration == null) return;
+
+  setTimeout(() => {
+    alert.classList.add("hide");
+    alert.addEventListener("transitionend", () => {
+      alert.remove();
+    });
+  }, duration);
+}
+function showAlertWinLose(message, duration = 1000, status, last = false) {
+  const alert = document.createElement("div");
+  alert.textContent = message;
+  alert.classList.add("alert-W-L");
+  alert.classList.add(status);
+  alertContainer.append(alert);
+
+  setTimeout(() => {
+    alert.classList.add("show");
+  }, 100);
+  if (last === true) {
+    setTimeout(() => {
+      modal.classList.add("show");
+      modal.addEventListener("click", (e) => {
+        console.log(e.target);
+        if (e.target === modal) {
+          modal.classList.remove("show");
+          const allAlerts = document.querySelectorAll(".alert-W-L");
+          setTimeout(() => {
+            allAlerts.forEach((a) => {
+              a.classList.add("hide");
+              a.addEventListener(
+                "transitionend",
+                () => {
+                  a.remove();
+                },
+                { once: true }
+              );
+            });
+          }, 1000);
+        }
+      });
+    }, 2000);
+  }
+  if (duration == null) return;
+  alert.addEventListener("transitionend", () => {
+    setTimeout(() => {
+      alert.classList.add("hide");
+      alert.addEventListener("transitionend", () => {
+        alert.remove();
+      });
+    }, duration);
+  });
+}
+
+//EMOJI CODES
+const yellowSquare = "🟨"; //1562
+const greenSquare = "🟩"; //1563
+const blackSquare = "⬛"; //1567
+
+var row1 = "";
+var row2 = "";
+var row3 = "";
+var row4 = "";
+var row5 = "";
+var row6 = "";
+
+const newLine = "\r\n";
+const shareTxtStart = `Will's Wordle ${targetWordsArray.indexOf(targetWord)}  `;
+var shareTxtStartWithRow = "";
+var shareTextBuild = "";
+var shareTextResult = "";
+// const shareBtn = document.querySelector("#share");
+const shareData = {
+  text: "",
+};
+// // Share must be triggered by "user activation"
+// btn.addEventListener("click", async () =>
+async function handleShareClick() {
+  console.log("Share buttone clicked");
+  try {
+    await navigator.share(shareData);
+  } catch (err) {
+    console.log("Error: " + err);
+  }
+}
+
+function checkWinLose(guess, tiles, eval) {
   var msgArr = [];
-  const completedRows = gameGrid.querySelectorAll(
-    '[data-active="completed"]'
-  ).length;
+  completedRows = gameGrid.querySelectorAll('[data-active="completed"]').length;
+  for (let i = 0; i < eval.length; i++) {
+    switch (eval[i]) {
+      case "correct":
+        window["row" + completedRows] += greenSquare;
+        break;
+      case "present":
+        window["row" + completedRows] += yellowSquare;
+        break;
+      case "absent":
+        window["row" + completedRows] += blackSquare;
+        break;
+      default:
+        break;
+    }
+  }
+  shareTxtStartWithRow =
+    shareTxtStart + `${completedRows}/6` + newLine + newLine;
 
-  console.log(guess === targetWord);
+  shareTextBuild += window["row" + completedRows] + newLine;
+  shareTextResult = shareTxtStartWithRow + shareTextBuild;
+
   if (guess === targetWord) {
+    console.log(shareTextResult);
+    shareData.text = shareTextResult;
     var rand = Math.floor(Math.random() * winMessages.length);
-    console.log(rand);
+
     const winMsg = winMessages[rand];
     stopinteraction();
     msgArr = [
       winMsg,
-      `Congratulations!\r\nYou solved today's word\r\n${targetWord.toUpperCase()}\r\nin...`,
-      `${completedRows}/6 tries`,
+      `Congratulations!\r\nYou solved today's word\r\nin ${completedRows}/6 tries`,
     ];
     // showAlertWinLose(winMsg, null, "win");
+    const i = msgArr.length - 1;
     danceTiles(tiles);
     msgArr.forEach((msg, index) => {
       setTimeout(() => {
-        showAlertWinLose(msg, null, "win");
+        if (index === i) {
+          showAlertWinLose(msg, null, "win", true);
+        } else {
+          showAlertWinLose(msg, null, "win");
+        }
       }, index * 1500);
     });
+    // const lastAlert = alertContainer.lastChild;
+    // lastAlert.append(shareBtn);
     return;
   }
 
@@ -13222,67 +13364,4 @@ function checkWinLose(guess, tiles) {
       }, index * 1500);
     });
   }
-}
-
-function danceTiles(tiles) {
-  tiles.forEach((tile, index) => {
-    setTimeout(() => {
-      tile.classList.add("dance");
-      tile.addEventListener(
-        "animationend",
-        () => {
-          tile.classList.remove("dance");
-        },
-        { once: true }
-      );
-    }, (index * ANIMATION_DURATION) / 5);
-  });
-}
-
-function showAlert(message, duration = 1000) {
-  const alert = document.createElement("div");
-  alert.textContent = message;
-  alert.classList.add("alert");
-  alertContainer.prepend(alert);
-
-  if (duration == null) return;
-
-  setTimeout(() => {
-    alert.classList.add("hide");
-    alert.addEventListener("transitionend", () => {
-      alert.remove();
-    });
-  }, duration);
-}
-function showAlertWinLose(message, duration = 1000, status) {
-  const alert = document.createElement("div");
-  alert.textContent = message;
-  alert.classList.add("alert-W-L");
-  alert.classList.add(status);
-  alertContainer.append(alert);
-  setTimeout(() => {
-    alert.classList.add("show");
-  }, 100);
-  if (duration == null) return;
-  alert.addEventListener("transitionend", () => {
-    setTimeout(() => {
-      alert.classList.add("hide");
-      alert.addEventListener("transitionend", () => {
-        alert.remove();
-      });
-    }, duration);
-  });
-}
-
-function shaketiles(tiles) {
-  tiles.forEach((tile) => {
-    tile.classList.add("shake");
-    tile.addEventListener(
-      "animationend",
-      () => {
-        tile.classList.remove("shake");
-      },
-      { once: true }
-    );
-  });
 }

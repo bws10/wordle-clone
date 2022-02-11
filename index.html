@@ -6,9 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/styles.css" />
     <script src="./src/script.js" defer></script>
+    <script
+      src="https://kit.fontawesome.com/ccbde957f1.js"
+      crossorigin="anonymous"
+    ></script>
     <title>Wordle Clone</title>
   </head>
   <body>
+    <div class="modal">
+      <div class="modal-content">
+        <button class="btn-share" onclick="handleShareClick()">
+          Share
+          <i onclick="handleShareClick()" class="fa-solid fa-share-nodes"></i>
+        </button>
+      </div>
+    </div>
     <div class="game">
       <div class="header"><div class="title">WORDLE</div></div>
       <div class="alert-container" data-alert-container></div>
