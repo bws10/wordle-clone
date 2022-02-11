@@ -205,6 +205,10 @@ html {
   background-color: #3a3a3c;
 }
 
+.key:hover {
+  background-color: #5b5d5d;
+}
+
 .key[data-state=present]:hover {
   background-color: #8f7d2e;
 }
@@ -289,6 +293,15 @@ html {
   background-color: #b59f3b;
   color: #d7dadc;
   border: 3px solid #d7dadc;
+}
+
+div[data-share] {
+  position: relative;
+  cursor: pointer;
+  font-size: 1.5em;
+  z-index: 3;
+  user-select: none;
+  touch-action: manipulation;
 }
 
 /*# sourceMappingURL=styles.css.map */

@@ -211,11 +211,10 @@ html {
 .key[data-state="absent"] {
   background-color: $absent;
 }
-// @supports not (-webkit-touch-callout: none) {
-//   .key:hover {
-//     background-color: darken($key-bg, 15%);
-//   }
-// }
+
+.key:hover {
+  background-color: darken($key-bg, 15%);
+}
 .key[data-state="present"]:hover {
   background-color: darken($present, 10%);
 }
@@ -290,4 +289,13 @@ html {
   background-color: $present;
   color: $key-color;
   border: 3px solid $key-color;
+}
+
+div[data-share] {
+  position: relative;
+  cursor: pointer;
+  font-size: 1.5em;
+  z-index: 3;
+  user-select: none;
+  touch-action: manipulation;
 }
