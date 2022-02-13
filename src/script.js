@@ -12975,6 +12975,9 @@ const dictionary = {
   10655: "zymes",
   10656: "zymic",
 };
+const LOCAL_STORAGE_KEY = "wills-wordle-key";
+
+var GAME_STATE = {};
 
 const targetWordsArray = Object.values(target);
 const dictionaryArray = Object.values(dictionary);
@@ -12994,27 +12997,150 @@ const loseMessages = [
 ];
 const WORD_LENGTH = 5;
 const ANIMATION_DURATION = 500;
-const offsetFromDate = new Date(2022, 1, 10);
+const offsetFromDate = new Date(2022, 1, 11); //set to (2022, 1, 10)
 const msOffset = Date.now() - offsetFromDate;
-const dayOffet = Math.floor(msOffset / 1000 / 60 / 60 / 24);
-const targetWord = targetWordsArray[dayOffet];
+const dayOffset = Math.floor(msOffset / 1000 / 60 / 60 / 24);
+const targetWord = targetWordsArray[dayOffset];
 const modal = document.querySelector(".modal");
 const keyboard = document.querySelector("[data-keyboard]");
 const keyButtons = keyboard.querySelectorAll("button");
 const alertContainer = document.querySelector("[data-alert-container]");
 const gameGrid = document.querySelector("[data-game-grid]");
 const gridTiles = document.querySelectorAll(".tile");
+var rowNum = 1;
 var completedRows = 0;
-console.log(targetWord);
-startInteraction();
+//EMOJI CODES
+const yellowSquare = "🟨"; //1562
+const greenSquare = "🟩"; //1563
+const blackSquare = "⬛"; //1567
 
-const dispatchKeyPressEvent = function (e) {
-  document.dispatchEvent(
-    new KeyboardEvent("keydown", {
-      key: e,
-    })
-  );
+var row1 = "";
+var row2 = "";
+var row3 = "";
+var row4 = "";
+var row5 = "";
+var row6 = "";
+
+const newLine = "\r\n";
+const shareTxtStart = `Will's Wordle #${targetWordsArray.indexOf(
+  targetWord
+)}  `;
+var shareTxtStartWithRow = "";
+var shareTextBuild = "";
+var shareTextResult = "";
+const shareData = {
+  text: "",
+  url: "https://bws10.github.io/wordle-clone/",
 };
+
+startInteraction();
+const storedState = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+if (storedState) {
+  setInitialState(storedState);
+} else {
+  resetGameState();
+}
+
+function resetGameState() {
+  GAME_STATE.wordIndex = dayOffset;
+  GAME_STATE.shareMsg = null;
+  GAME_STATE.shareBuild = null;
+  GAME_STATE.gridLetters = {
+    1: ["", "", "", "", ""],
+    2: ["", "", "", "", ""],
+    3: ["", "", "", "", ""],
+    4: ["", "", "", "", ""],
+    5: ["", "", "", "", ""],
+    6: ["", "", "", "", ""],
+  };
+  GAME_STATE.gridState = {
+    1: ["empty", "empty", "empty", "empty", "empty"],
+    2: ["empty", "empty", "empty", "empty", "empty"],
+    3: ["empty", "empty", "empty", "empty", "empty"],
+    4: ["empty", "empty", "empty", "empty", "empty"],
+    5: ["empty", "empty", "empty", "empty", "empty"],
+    6: ["empty", "empty", "empty", "empty", "empty"],
+  };
+
+  GAME_STATE.rowstate = {
+    1: "current",
+    2: null,
+    3: null,
+    4: null,
+    5: null,
+    6: null,
+  };
+  GAME_STATE.keboardState = {
+    Q: "empty",
+    W: "empty",
+    E: "empty",
+    R: "empty",
+    T: "empty",
+    Y: "empty",
+    U: "empty",
+    I: "empty",
+    O: "empty",
+    P: "empty",
+    A: "empty",
+    S: "empty",
+    D: "empty",
+    F: "empty",
+    G: "empty",
+    H: "empty",
+    J: "empty",
+    K: "empty",
+    L: "empty",
+    Z: "empty",
+    X: "empty",
+    C: "empty",
+    V: "empty",
+    B: "empty",
+    N: "empty",
+    M: "empty",
+  };
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(GAME_STATE));
+}
+
+function setInitialState(state) {
+  GAME_STATE = state;
+  if (state.wordIndex !== dayOffset) {
+    resetGameState();
+    return;
+  }
+
+  //SET GAME TILES
+  for (let i = 1; i <= 6; i++) {
+    let row = document.querySelector(`#row-${i}`);
+    if (state.rowstate[i] != null) {
+      if (state.rowstate[i] == "completed") completedRows++;
+      row.dataset.active = state.rowstate[i];
+      let rowTiles = row.querySelectorAll(".tile");
+      for (let t = 0; t < rowTiles.length; t++) {
+        rowTiles[t].dataset.state = state.gridState[i][t];
+        if (state.gridLetters[i][t] !== null) {
+          rowTiles[t].textContent = state.gridLetters[i][t].toUpperCase();
+        }
+      }
+    }
+  }
+  //set keyboard state
+  let keys = document.querySelectorAll("[data-key]");
+  for (let i = 0; i < keys.length; i++) {
+    let v = keys[i].dataset.key;
+    keys[i].dataset.state = state.keboardState[v];
+  }
+  if (state.shareBuild !== null) {
+    shareTextBuild = state.shareBuild;
+  }
+  if (state.shareMsg !== null) {
+    const resultElement = document.createElement("div");
+    const modalContainer = document.querySelector(".modal-content");
+    resultElement.textContent = state.shareMsg;
+    resultElement.classList.add("share-msg");
+    modalContainer.prepend(resultElement);
+    stopinteraction();
+  }
+}
 
 function startInteraction() {
   keyButtons.forEach((b) => {
@@ -13033,7 +13159,6 @@ function stopinteraction() {
 }
 
 function handleClick(e) {
-  console.log(e.target);
   if (e.target.matches("[data-key]")) {
     pressKey(e.target.dataset.key);
     return;
@@ -13090,6 +13215,7 @@ function getActiveTiles() {
 
 function getCurrentRowTiles() {
   const currentRow = gameGrid.querySelector('[data-active="current"]');
+  rowNum = parseFloat(currentRow.id.match(/[0-9]$/)[0]);
   return currentRow.querySelectorAll("[data-state]");
 }
 
@@ -13114,7 +13240,54 @@ function submitGuess() {
   }
 
   stopinteraction();
-  activeTiles.forEach((...params) => flipTile(...params, guess));
+
+  const evaluated = evaluateGuess(guess, targetWord);
+  activeTiles.forEach((...params) => flipTile(...params, guess, evaluated));
+}
+
+function flipTile(tile, index, array, guess, evaluated) {
+  const currentRow = gameGrid.querySelector('[data-active="current"]');
+  const nextRow = gameGrid.querySelector(".row:not([data-active])");
+  const letter = tile.dataset.letter;
+  const key = keyboard.querySelector(`[data-key="${letter}"i]`);
+  setTimeout(() => {
+    tile.classList.add("flip");
+  }, (index * ANIMATION_DURATION) / 2);
+  tile.addEventListener(
+    "transitionend",
+    () => {
+      tile.classList.remove("flip");
+      tile.dataset.state = evaluated[index];
+      if (key.dataset.state !== "correct") {
+        if (evaluated[index] === "absent" && key.dataset.state === "present") {
+          key.dataset.state = "present";
+        } else {
+          key.dataset.state = evaluated[index];
+          GAME_STATE.keboardState[letter] = evaluated[index];
+        }
+      }
+
+      if (index === array.length - 1) {
+        tile.addEventListener(
+          "transitionend",
+          () => {
+            if (nextRow != null) {
+              nextRow.dataset.active = "current";
+              GAME_STATE.rowstate[rowNum + 1] = "current";
+            }
+
+            currentRow.dataset.active = "completed";
+            GAME_STATE.rowstate[rowNum] = "completed";
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(GAME_STATE));
+            startInteraction();
+            checkWinLose(guess, array, evaluated);
+          },
+          { once: true }
+        );
+      }
+    },
+    { once: true }
+  );
 }
 
 function evaluateGuess(guess, target) {
@@ -13122,9 +13295,12 @@ function evaluateGuess(guess, target) {
   const targArr = [...target];
   const result = new Array(5).fill("absent");
 
+  GAME_STATE.gridLetters[rowNum] = [...guessArr];
+
   for (let i = 0; i < 5; i++) {
     if (guessArr[i] == targArr[i]) {
       result[i] = "correct";
+
       delete guessArr[i];
       delete targArr[i];
     }
@@ -13137,44 +13313,11 @@ function evaluateGuess(guess, target) {
       delete guessArr[i];
     }
   }
+  GAME_STATE.gridState[rowNum] = result;
 
   return result;
 }
 
-function flipTile(tile, index, array, guess) {
-  const currentRow = gameGrid.querySelector('[data-active="current"]');
-  const nextRow = gameGrid.querySelector(".row:not([data-active])");
-  const letter = tile.dataset.letter;
-  const evaluated = evaluateGuess(guess, targetWord);
-  const key = keyboard.querySelector(`[data-key="${letter}"i]`);
-  setTimeout(() => {
-    tile.classList.add("flip");
-  }, (index * ANIMATION_DURATION) / 2);
-  tile.addEventListener(
-    "transitionend",
-    () => {
-      tile.classList.remove("flip");
-      tile.dataset.state = evaluated[index];
-      if (key.dataset.state !== "correct") {
-        key.dataset.state = evaluated[index];
-      }
-
-      if (index === array.length - 1) {
-        tile.addEventListener(
-          "transitionend",
-          () => {
-            if (nextRow != null) nextRow.dataset.active = "current";
-            currentRow.dataset.active = "completed";
-            startInteraction();
-            checkWinLose(guess, array, evaluated);
-          },
-          { once: true }
-        );
-      }
-    },
-    { once: true }
-  );
-}
 function shaketiles(tiles) {
   tiles.forEach((tile) => {
     tile.classList.add("shake");
@@ -13230,7 +13373,6 @@ function showAlertWinLose(message, duration = 1000, status, last = false) {
     setTimeout(() => {
       modal.classList.add("show");
       modal.addEventListener("click", (e) => {
-        console.log(e.target);
         if (e.target === modal) {
           modal.classList.remove("show");
           const allAlerts = document.querySelectorAll(".alert-W-L");
@@ -13261,34 +13403,9 @@ function showAlertWinLose(message, duration = 1000, status, last = false) {
   });
 }
 
-//EMOJI CODES
-const yellowSquare = "🟨"; //1562
-const greenSquare = "🟩"; //1563
-const blackSquare = "⬛"; //1567
-
-var row1 = "";
-var row2 = "";
-var row3 = "";
-var row4 = "";
-var row5 = "";
-var row6 = "";
-
-const newLine = "\r\n";
-const shareTxtStart = `Will's Wordle #${targetWordsArray.indexOf(
-  targetWord
-)}  `;
-var shareTxtStartWithRow = "";
-var shareTextBuild = "";
-var shareTextResult = "";
-// const shareBtn = document.querySelector("#share");
-const shareData = {
-  text: "",
-  url: "https://bws10.github.io/wordle-clone/",
-};
 // // Share must be triggered by "user activation"
-// btn.addEventListener("click", async () =>
+
 async function handleShareClick() {
-  console.log("Share buttone clicked");
   try {
     await navigator.share(shareData);
   } catch (err) {
@@ -13318,14 +13435,17 @@ function checkWinLose(guess, tiles, eval) {
     shareTxtStart + `${completedRows}/6` + newLine + newLine;
 
   shareTextBuild += window["row" + completedRows] + newLine;
+  GAME_STATE.shareBuild = shareTextBuild;
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(GAME_STATE));
   shareTextResult = shareTxtStartWithRow + shareTextBuild;
 
   if (guess === targetWord) {
-    console.log(shareTextResult);
     shareData.text = shareTextResult;
     const resultElement = document.createElement("div");
     const modalContainer = document.querySelector(".modal-content");
     resultElement.textContent = shareTextResult;
+    GAME_STATE.shareMsg = shareTextResult;
+
     resultElement.classList.add("share-msg");
     modalContainer.prepend(resultElement);
 
@@ -13337,7 +13457,7 @@ function checkWinLose(guess, tiles, eval) {
       winMsg,
       `Congratulations!\r\nYou solved today's word\r\nin ${completedRows}/6 tries`,
     ];
-    // showAlertWinLose(winMsg, null, "win");
+
     const i = msgArr.length - 1;
     danceTiles(tiles);
     msgArr.forEach((msg, index) => {
@@ -13349,14 +13469,14 @@ function checkWinLose(guess, tiles, eval) {
         }
       }, index * 1500);
     });
-    // const lastAlert = alertContainer.lastChild;
-    // lastAlert.append(shareBtn);
+
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(GAME_STATE));
     return;
   }
 
   if (completedRows === 6) {
     rand = Math.floor(Math.random() * loseMessages.length);
-    console.log(rand);
+
     const loseMsg = loseMessages[rand];
     stopinteraction();
     msgArr = [
@@ -13373,6 +13493,7 @@ function checkWinLose(guess, tiles, eval) {
       }, index * 1500);
     });
   }
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(GAME_STATE));
 }
 
 function openModal() {
