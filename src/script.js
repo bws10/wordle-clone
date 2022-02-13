@@ -12997,7 +12997,7 @@ const loseMessages = [
 ];
 const WORD_LENGTH = 5;
 const ANIMATION_DURATION = 500;
-const offsetFromDate = new Date(2022, 1, 11); //set to (2022, 1, 10)
+const offsetFromDate = new Date(2022, 1, 10); //set to (2022, 1, 10)
 const msOffset = Date.now() - offsetFromDate;
 const dayOffset = Math.floor(msOffset / 1000 / 60 / 60 / 24);
 const targetWord = targetWordsArray[dayOffset];
