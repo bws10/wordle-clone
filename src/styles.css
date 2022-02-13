@@ -8,18 +8,12 @@ body {
   font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
   background: #538d4e;
   font-size: clamp(0.5rem, 2.5vmin, 1.5rem);
-  /* mobile viewport bug fix */
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
+  height: 100%;
   display: flex;
   align-items: center;
   overflow: hidden;
   justify-content: space-between;
   flex-direction: column;
-}
-
-html {
-  height: -webkit-fill-available;
 }
 
 .game {
@@ -29,8 +23,7 @@ html {
   background: #000;
   max-width: 500px;
   margin: 0;
-  height: 100vh;
-  height: -webkit-fill-available;
+  height: 100%;
   display: flex;
   align-items: center;
   padding-bottom: 10px;
