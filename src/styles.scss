@@ -73,6 +73,11 @@ body {
     font-size: 1.5rem;
     cursor: pointer;
     margin-right: 15px;
+
+    svg {
+      fill: $key-color;
+      height: 1.5rem;
+    }
   }
   .logo img {
     width: 2rem;
@@ -354,6 +359,13 @@ body {
   font-size: 1.5rem;
   font-weight: bold;
   z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   user-select: none;
   touch-action: manipulation;
+}
+.btn-share svg {
+  fill: $key-color;
+  height: 1.5rem;
 }

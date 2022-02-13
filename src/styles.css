@@ -59,6 +59,10 @@ body {
   cursor: pointer;
   margin-right: 15px;
 }
+.header .open-modal svg {
+  fill: #d7dadc;
+  height: 1.5rem;
+}
 .header .logo img {
   width: 2rem;
   padding: 0;
@@ -356,8 +360,16 @@ body {
   font-size: 1.5rem;
   font-weight: bold;
   z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   user-select: none;
   touch-action: manipulation;
+}
+
+.btn-share svg {
+  fill: #d7dadc;
+  height: 1.5rem;
 }
 
 /*# sourceMappingURL=styles.css.map */
