@@ -13033,6 +13033,10 @@ const shareData = {
   url: "https://bws10.github.io/wordle-clone/",
 };
 
+window.onresize = function () {
+  document.body.height = window.innerHeight;
+};
+window.onresize(); // called to initially set the height.
 startInteraction();
 const storedState = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
 if (storedState) {
