@@ -44,12 +44,13 @@ html {
   padding-bottom: 10px;
   justify-content: space-between;
   flex-direction: column;
-  flex-direction: column;
+
   box-sizing: border-box;
 }
 
 .header {
   display: flex;
+  border-bottom: 1px solid $tile-border;
   justify-content: space-between;
   align-items: center;
   height: $header-height;
@@ -60,31 +61,26 @@ html {
   // flex-direction: row-reverse;
 
   .title {
-    border-bottom: 1px solid $tile-border;
-    margin-bottom: 1rem;
     padding: 1rem;
     font-weight: 700;
-    font-size: 2rem;
+    font-size: clamp(1rem, 5vmin, 2rem);
     letter-spacing: 0.2rem;
     text-transform: uppercase;
     text-align: center;
-    position: absolute;
-
-    left: 50%;
-    transform: translateX(-50%);
 
     pointer-events: none;
     word-wrap: normal;
-    width: 100%;
   }
   .open-modal {
     color: $key-color;
     font-size: 1.5rem;
     cursor: pointer;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    position: absolute;
-    right: 0;
+    margin-right: 15px;
+  }
+  .logo img {
+    width: 2rem;
+    padding: 0;
+    margin-left: 15px;
   }
 }
 
