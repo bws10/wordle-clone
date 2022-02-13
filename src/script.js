@@ -13029,8 +13029,8 @@ var shareTxtStartWithRow = "";
 var shareTextBuild = "";
 var shareTextResult = "";
 const shareData = {
-  text: "",
   url: "https://bws10.github.io/wordle-clone/",
+  text: "",
 };
 
 window.onresize = function () {
@@ -13143,6 +13143,7 @@ function setInitialState(state) {
     resultElement.classList.add("share-msg");
     modalContainer.prepend(resultElement);
     stopinteraction();
+    shareData.text = state.shareMsg;
   }
   const rows = document.querySelectorAll('[data-active="completed"]');
   flipAllComplete(rows);
