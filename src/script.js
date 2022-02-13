@@ -13414,7 +13414,7 @@ function showAlertWinLose(message, duration = 1000, status, last = false) {
           }, 1000);
         }
       });
-    }, 2000);
+    }, 3000);
   }
   if (duration == null) return;
   alert.addEventListener("transitionend", () => {
@@ -13461,7 +13461,7 @@ function checkWinLose(guess, tiles, eval) {
   shareTextBuild += window["row" + completedRows] + newLine;
   GAME_STATE.shareBuild = shareTextBuild;
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(GAME_STATE));
-  shareTextResult = shareTxtStartWithRow + shareTextBuild;
+  shareTextResult = shareTxtStartWithRow + shareTextBuild + newLine;
 
   if (guess === targetWord) {
     shareData.text = shareTextResult;
@@ -13499,6 +13499,21 @@ function checkWinLose(guess, tiles, eval) {
   }
 
   if (completedRows === 6) {
+    shareTextResult =
+      shareTxtStartWithRow +
+      newLine +
+      "FAILED !!" +
+      newLine +
+      shareTextBuild +
+      newLine;
+    shareData.text = shareTextResult;
+    const resultElement = document.createElement("div");
+    const modalContainer = document.querySelector(".modal-content");
+    resultElement.textContent = shareTextResult;
+    GAME_STATE.shareMsg = shareTextResult;
+
+    resultElement.classList.add("share-msg");
+    modalContainer.prepend(resultElement);
     rand = Math.floor(Math.random() * loseMessages.length);
 
     const loseMsg = loseMessages[rand];
@@ -13508,12 +13523,16 @@ function checkWinLose(guess, tiles, eval) {
       "The word you were looking for was...",
       targetWord.toUpperCase(),
     ];
-
+    const i = msgArr.length - 1;
     const allTiles = gameGrid.querySelectorAll("[data-letter]");
     shaketiles(allTiles);
     msgArr.forEach((msg, index) => {
       setTimeout(() => {
-        showAlertWinLose(msg, null, "lose");
+        if (index === i) {
+          showAlertWinLose(msg, null, "lose", true);
+        } else {
+          showAlertWinLose(msg, null, "lose");
+        }
       }, index * 1500);
     });
   }
