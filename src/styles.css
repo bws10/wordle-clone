@@ -319,11 +319,13 @@ body {
   justify-content: center;
   align-items: center;
   transition: opacity 500ms ease-in-out;
+  pointer-events: none;
 }
 
 .modal.show {
   height: auto;
   opacity: 1;
+  pointer-events: all;
 }
 
 .modal-content {
