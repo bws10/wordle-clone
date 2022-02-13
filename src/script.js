@@ -13267,7 +13267,7 @@ function flipTile(tile, index, array, guess, evaluated) {
           key.dataset.state = "present";
         } else {
           key.dataset.state = evaluated[index];
-          GAME_STATE.keboardState[letter] = evaluated[index];
+          GAME_STATE.keboardState[letter.toUpperCase()] = evaluated[index];
         }
       }
 
