@@ -13144,6 +13144,8 @@ function setInitialState(state) {
     modalContainer.prepend(resultElement);
     stopinteraction();
   }
+  const rows = document.querySelectorAll('[data-active="completed"]');
+  flipAllComplete(rows);
 }
 
 function startInteraction() {
@@ -13346,6 +13348,23 @@ function danceTiles(tiles) {
         { once: true }
       );
     }, (index * ANIMATION_DURATION) / 5);
+  });
+}
+function flipAllComplete(rows) {
+  rows.forEach((row) => {
+    const tiles = row.querySelectorAll(".tile");
+    tiles.forEach((tile, index) => {
+      setTimeout(() => {
+        tile.classList.add("flip");
+        tile.addEventListener(
+          "transitionend",
+          () => {
+            tile.classList.remove("flip");
+          },
+          { once: true }
+        );
+      }, (index * ANIMATION_DURATION) / 5);
+    });
   });
 }
 function showAlert(message, duration = 1000) {
