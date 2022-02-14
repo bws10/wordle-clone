@@ -13501,8 +13501,8 @@ function checkWinLose(guess, tiles, eval) {
   if (completedRows === 6) {
     shareTextResult =
       shareTxtStartWithRow +
-      newLine +
       "FAILED !!" +
+      newLine +
       newLine +
       shareTextBuild +
       newLine;
