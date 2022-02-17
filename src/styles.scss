@@ -14,61 +14,54 @@ $game-max-width: 500px;
 *::after {
   box-sizing: border-box;
 }
+html {
+  height: 100%;
+}
 body {
   font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
   background: $correct;
   font-size: clamp(0.5rem, 2.5vmin, 1.5rem);
   height: 100%;
 
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  justify-content: space-between;
-  flex-direction: column;
-}
-
-.game {
-  position: absolute;
-  top: 1px;
-  width: 100vw;
-  background: #000;
-  max-width: $game-max-width;
   margin: 0;
-  height: 100%;
-
-  display: flex;
-  align-items: center;
-  padding-bottom: 10px;
-  justify-content: space-between;
-  flex-direction: column;
-
-  box-sizing: border-box;
+  padding: 0;
+  overflow-y: hidden;
 }
 
 .header {
   display: flex;
-  border-bottom: 1px solid $tile-border;
-  justify-content: space-between;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  padding: 0 16px;
   height: $header-height;
   color: $key-color;
-  width: 100%;
-  max-width: $game-max-width;
-  margin-top: 15px;
-  // flex-direction: row-reverse;
-
+  border-bottom: 1px solid $key-color;
   .title {
-    padding: 1rem;
     font-weight: 700;
     font-size: clamp(1rem, 5vmin, 2rem);
-    letter-spacing: 0.2rem;
-    text-transform: uppercase;
+    line-height: 100%;
+    letter-spacing: 0.01em;
     text-align: center;
-
+    left: 0;
+    right: 0;
     pointer-events: none;
-    word-wrap: normal;
+    display: block;
+
+    // padding: 1rem;
+    // font-weight: 700;
+    // font-size: clamp(1rem, 5vmin, 2rem);
+    // letter-spacing: 0.2rem;
+    // text-transform: uppercase;
+    // text-align: center;
+
+    // pointer-events: none;
+    // word-wrap: normal;
   }
   .open-modal {
+    justify-content: flex-end;
+
     color: $key-color;
     font-size: 1.5rem;
     cursor: pointer;
@@ -80,15 +73,47 @@ body {
     }
   }
   .logo img {
-    width: 2rem;
+    display: flex;
+    margin: 0;
     padding: 0;
-    margin-left: 15px;
+    align-items: center;
+    width: 2rem;
+    justify-content: flex-start;
+    // width: 2rem;
+    // padding: 0;
+    // margin-left: 15px;
   }
 }
+// @media (min-width: 415px) {
+//   .header {
+//     padding: 0px 16px;
+//   }
+// }
 
+// @media (max-width: 360px) {
+//   .header .title {
+//     // font-size: 22px;
+//     letter-spacing: 0.1rem;
+//   }
+// }
+.game {
+  width: 100%;
+  max-width: $game-max-width;
+  margin: 0 auto;
+  height: calc(100% - $header-height);
+  display: flex;
+  flex-direction: column;
+  background-color: #000;
+}
+
+.grid-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  overflow: hidden;
+}
 .game-grid {
-  width: 350px;
-  height: 420px;
   display: grid;
   grid-template-rows: repeat(6, 1fr);
   grid-gap: 5px;
@@ -183,24 +208,36 @@ body {
   }
 }
 
-.keyboard {
-  display: grid;
-  grid-template-columns: repeat(20, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  grid-row-gap: 8px;
-  padding-top: 10px;
+.keyboard-container {
   height: $keyboard-height;
-  width: 97%;
-  max-width: $game-max-width;
+}
+.keyboard {
   margin: 0 8px;
-  box-sizing: border-box;
+  user-select: none;
+  // display: grid;
+  // grid-template-columns: repeat(20, 1fr);
+  // grid-template-rows: repeat(3, 1fr);
+  // grid-row-gap: 8px;
+  // padding-top: 10px;
+  // height: $keyboard-height;
+  // width: 97%;
+  // max-width: $game-max-width;
+  // margin: 0 8px;
+  // box-sizing: border-box;
+  // touch-action: manipulation;
+}
+
+.key-row {
+  display: flex;
+  width: 100%;
+  margin: 0 auto 8px;
+  /* https://stackoverflow.com/questions/46167604/ios-html-disable-double-tap-to-zoom */
   touch-action: manipulation;
 }
 
 .key {
-  grid-column: span 2;
   font-family: inherit;
-  touch-action: manipulation;
+
   font-weight: bold;
   border: 0;
   padding: 0;
@@ -212,6 +249,8 @@ body {
   background-color: $key-bg;
   color: $key-color;
   fill: $key-color;
+  flex: 1;
+  display: flex;
   justify-content: center;
   align-items: center;
   text-transform: uppercase;
@@ -240,8 +279,14 @@ body {
   background-color: darken($absent, 10%);
 }
 .big-key {
-  grid-column: span 3;
+  flex: 1.5;
   font-size: 12px;
+}
+.half-key {
+  flex: 0.5;
+}
+.key:last-of-type {
+  margin: 0;
 }
 
 .alert-container {
