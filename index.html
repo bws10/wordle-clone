@@ -23,6 +23,7 @@
     />
     <link rel="manifest" href="./images/site.webmanifest" />
     <link rel="stylesheet" href="./src/styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="./src/script.js" defer></script>
     <script
       src="https://kit.fontawesome.com/ccbde957f1.js"
@@ -49,117 +50,131 @@
         </button>
       </div>
     </div>
-    <div class="game">
-      <div class="header">
-        <div class="logo">
-          <img src="./images/apple-touch-icon.png" alt="" />
-        </div>
-        <div class="title">WILL'S WORDLE</div>
-        <div onclick="openModal()" class="open-modal">
-          <svg
+    <div class="header">
+      <div class="logo">
+        <img src="./images/apple-touch-icon.png" alt="" />
+      </div>
+      <div class="title">WILL'S WORDLE</div>
+      <div onclick="openModal()" class="open-modal">
+        <svg
+          onclick="openModal()"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 448 512"
+        >
+          <!--! Font Awesome Pro 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+          <path
             onclick="openModal()"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 448 512"
-          >
-            <!--! Font Awesome Pro 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
-            <path
-              onclick="openModal()"
-              d="M448 127.1C448 181 405 223.1 352 223.1C326.1 223.1 302.6 213.8 285.4 197.1L191.3 244.1C191.8 248 191.1 251.1 191.1 256C191.1 260 191.8 263.1 191.3 267.9L285.4 314.9C302.6 298.2 326.1 288 352 288C405 288 448 330.1 448 384C448 437 405 480 352 480C298.1 480 256 437 256 384C256 379.1 256.2 376 256.7 372.1L162.6 325.1C145.4 341.8 121.9 352 96 352C42.98 352 0 309 0 256C0 202.1 42.98 160 96 160C121.9 160 145.4 170.2 162.6 186.9L256.7 139.9C256.2 135.1 256 132 256 128C256 74.98 298.1 32 352 32C405 32 448 74.98 448 128L448 127.1zM95.1 287.1C113.7 287.1 127.1 273.7 127.1 255.1C127.1 238.3 113.7 223.1 95.1 223.1C78.33 223.1 63.1 238.3 63.1 255.1C63.1 273.7 78.33 287.1 95.1 287.1zM352 95.1C334.3 95.1 320 110.3 320 127.1C320 145.7 334.3 159.1 352 159.1C369.7 159.1 384 145.7 384 127.1C384 110.3 369.7 95.1 352 95.1zM352 416C369.7 416 384 401.7 384 384C384 366.3 369.7 352 352 352C334.3 352 320 366.3 320 384C320 401.7 334.3 416 352 416z"
-            />
-          </svg>
-        </div>
+            d="M448 127.1C448 181 405 223.1 352 223.1C326.1 223.1 302.6 213.8 285.4 197.1L191.3 244.1C191.8 248 191.1 251.1 191.1 256C191.1 260 191.8 263.1 191.3 267.9L285.4 314.9C302.6 298.2 326.1 288 352 288C405 288 448 330.1 448 384C448 437 405 480 352 480C298.1 480 256 437 256 384C256 379.1 256.2 376 256.7 372.1L162.6 325.1C145.4 341.8 121.9 352 96 352C42.98 352 0 309 0 256C0 202.1 42.98 160 96 160C121.9 160 145.4 170.2 162.6 186.9L256.7 139.9C256.2 135.1 256 132 256 128C256 74.98 298.1 32 352 32C405 32 448 74.98 448 128L448 127.1zM95.1 287.1C113.7 287.1 127.1 273.7 127.1 255.1C127.1 238.3 113.7 223.1 95.1 223.1C78.33 223.1 63.1 238.3 63.1 255.1C63.1 273.7 78.33 287.1 95.1 287.1zM352 95.1C334.3 95.1 320 110.3 320 127.1C320 145.7 334.3 159.1 352 159.1C369.7 159.1 384 145.7 384 127.1C384 110.3 369.7 95.1 352 95.1zM352 416C369.7 416 384 401.7 384 384C384 366.3 369.7 352 352 352C334.3 352 320 366.3 320 384C320 401.7 334.3 416 352 416z"
+          />
+        </svg>
       </div>
+    </div>
+    <div class="game">
       <div class="alert-container" data-alert-container></div>
-      <div class="game-grid" data-game-grid>
-        <div class="row" id="row-1" data-active="current">
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-        </div>
-        <div class="row" id="row-2">
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-        </div>
-        <div class="row" id="row-3">
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-        </div>
-        <div class="row" id="row-4">
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-        </div>
-        <div class="row" id="row-5">
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-        </div>
-        <div class="row" id="row-6">
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
-          <div class="tile" data-state="empty"></div>
+      <div class="grid-container">
+        <div
+          class="game-grid"
+          style="width: 350px; height: 420px"
+          data-game-grid
+        >
+          <div class="row" id="row-1" data-active="current">
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+          </div>
+          <div class="row" id="row-2">
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+          </div>
+          <div class="row" id="row-3">
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+          </div>
+          <div class="row" id="row-4">
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+          </div>
+          <div class="row" id="row-5">
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+          </div>
+          <div class="row" id="row-6">
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+            <div class="tile" data-state="empty"></div>
+          </div>
         </div>
       </div>
-      <div class="keyboard" data-keyboard>
-        <button class="key" data-state="empty" data-key="Q">Q</button>
-        <button class="key" data-state="empty" data-key="W">W</button>
-        <button class="key" data-state="empty" data-key="E">E</button>
-        <button class="key" data-state="empty" data-key="R">R</button>
-        <button class="key" data-state="empty" data-key="T">T</button>
-        <button class="key" data-state="empty" data-key="Y">Y</button>
-        <button class="key" data-state="empty" data-key="U">U</button>
-        <button class="key" data-state="empty" data-key="I">I</button>
-        <button class="key" data-state="empty" data-key="O">O</button>
-        <button class="key" data-state="empty" data-key="P">P</button>
-        <div></div>
-        <button class="key" data-state="empty" data-key="A">A</button>
-        <button class="key" data-state="empty" data-key="S">S</button>
-        <button class="key" data-state="empty" data-key="D">D</button>
-        <button class="key" data-state="empty" data-key="F">F</button>
-        <button class="key" data-state="empty" data-key="G">G</button>
-        <button class="key" data-state="empty" data-key="H">H</button>
-        <button class="key" data-state="empty" data-key="J">J</button>
-        <button class="key" data-state="empty" data-key="K">K</button>
-        <button class="key" data-state="empty" data-key="L">L</button>
-        <div></div>
-        <button class="key big-key" data-enter="Enter">Enter</button>
-        <button class="key" data-state="empty" data-key="Z">Z</button>
-        <button class="key" data-state="empty" data-key="X">X</button>
-        <button class="key" data-state="empty" data-key="C">C</button>
-        <button class="key" data-state="empty" data-key="V">V</button>
-        <button class="key" data-state="empty" data-key="B">B</button>
-        <button class="key" data-state="empty" data-key="N">N</button>
-        <button class="key" data-state="empty" data-key="M">M</button>
-        <button class="key big-key" data-delete="Backspace">
-          <svg
-            data-delete
-            onclick="handleClick"
-            xmlns="http://www.w3.org/2000/svg"
-            height="24"
-            viewBox="0 0 24 24"
-            width="24"
-          >
-            <path
-              data-delete
-              onclick="handleClick"
-              d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"
-            ></path>
-          </svg>
-        </button>
+      <div class="keyboard-container">
+        <div class="keyboard" data-keyboard>
+          <div class="key-row">
+            <button class="key" data-state="empty" data-key="Q">Q</button>
+            <button class="key" data-state="empty" data-key="W">W</button>
+            <button class="key" data-state="empty" data-key="E">E</button>
+            <button class="key" data-state="empty" data-key="R">R</button>
+            <button class="key" data-state="empty" data-key="T">T</button>
+            <button class="key" data-state="empty" data-key="Y">Y</button>
+            <button class="key" data-state="empty" data-key="U">U</button>
+            <button class="key" data-state="empty" data-key="I">I</button>
+            <button class="key" data-state="empty" data-key="O">O</button>
+            <button class="key" data-state="empty" data-key="P">P</button>
+          </div>
+          <div class="key-row">
+            <div class="half-key"></div>
+            <button class="key" data-state="empty" data-key="A">A</button>
+            <button class="key" data-state="empty" data-key="S">S</button>
+            <button class="key" data-state="empty" data-key="D">D</button>
+            <button class="key" data-state="empty" data-key="F">F</button>
+            <button class="key" data-state="empty" data-key="G">G</button>
+            <button class="key" data-state="empty" data-key="H">H</button>
+            <button class="key" data-state="empty" data-key="J">J</button>
+            <button class="key" data-state="empty" data-key="K">K</button>
+            <button class="key" data-state="empty" data-key="L">L</button>
+            <div class="half-key"></div>
+          </div>
+          <div class="key-row">
+            <button class="key big-key" data-enter="Enter">Enter</button>
+            <button class="key" data-state="empty" data-key="Z">Z</button>
+            <button class="key" data-state="empty" data-key="X">X</button>
+            <button class="key" data-state="empty" data-key="C">C</button>
+            <button class="key" data-state="empty" data-key="V">V</button>
+            <button class="key" data-state="empty" data-key="B">B</button>
+            <button class="key" data-state="empty" data-key="N">N</button>
+            <button class="key" data-state="empty" data-key="M">M</button>
+            <button class="key big-key" data-delete="Backspace">
+              <svg
+                data-delete
+                onclick="handleClick"
+                xmlns="http://www.w3.org/2000/svg"
+                height="24"
+                viewBox="0 0 24 24"
+                width="24"
+              >
+                <path
+                  data-delete
+                  onclick="handleClick"
+                  d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </body>

@@ -1,0 +1,253 @@
+@keyframes a {
+  0% {
+    transform: translateY(20px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes b {
+  0% {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(20px);
+  }
+}
+@keyframes c {
+  0% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes d {
+  0% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+:root {
+  --white: #fff;
+  --gray1: #333;
+  --gray2: #959595;
+  --gray3: #ccc;
+  --blueGray1: #787886;
+  --black: #000;
+  --blue3: #4f85e5;
+  --shadow1: rgba(0, 0, 0, 0.3);
+  --shadow2: rgba(0, 0, 0, 0.5);
+  --shadow3: 0px 1px 2px rgba(0, 0, 0, 0.25);
+  --franklin: "nyt-franklin", "franklin", sans-serif;
+  --breakpoint-xs-min: 0;
+  --breakpoint-sm-min: 444px;
+  --breakpoint-sm-max: 767px;
+  --breakpoint-md-min: 768px;
+  --breakpoint-md-max: 991px;
+  --breakpoint-lg-min: 992px;
+  --breakpoint-lg-max: 1199px;
+  --breakpoint-xl-min: 1200px;
+}
+#pz-gdpr {
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  overflow: hidden;
+  z-index: 10000000;
+  width: 100%;
+  height: 100%;
+  color: var(--gray1);
+}
+#pz-gdpr,
+.pz-snackbar {
+  display: flex;
+  position: fixed;
+  font-family: var(--franklin);
+}
+.pz-snackbar {
+  bottom: 30px;
+  right: 30px;
+  z-index: 10000001;
+  max-width: 600px;
+  padding: 15px 20px;
+  border-radius: 2px;
+  font-size: 15px;
+  line-height: 19px;
+  color: var(--white);
+  background-color: var(--gray1);
+  box-shadow: var(--shadow3);
+  animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+  animation-duration: 0.4s, 0.36s, 0.4s, 0.36s;
+  animation-delay: 0ms, 0ms, 7s, 7.01s;
+  animation-name: a, c, b, d;
+  animation-fill-mode: forwards;
+}
+#pz-gdpr-banner {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  min-height: 220px;
+  width: 100vw;
+  border-top: 1px solid var(--gray1);
+  box-shadow: 0 1px 16px var(--shadow1);
+  background: var(--white);
+  overflow: hidden;
+}
+#pz-gdpr .banner-title {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 15px;
+  margin: 25px 0;
+}
+#pz-gdpr .banner-text,
+#pz-gdpr .banner-title {
+  max-width: 705px;
+  margin-right: 45px;
+}
+#pz-gdpr .banner-text {
+  margin-bottom: 10px;
+  line-height: 20px;
+}
+#pz-gdpr .banner-link {
+  display: inline-block;
+  color: var(--blue3);
+}
+#pz-gdpr.close {
+  display: none;
+}
+#pz-gdpr-btns {
+  display: flex;
+}
+#pz-gdpr-btns .banner-link {
+  text-decoration: none;
+  color: var(--white) !important;
+}
+#pz-gdpr-btn-accept,
+#pz-gdpr-btn-reject {
+  display: block;
+  text-align: center;
+  height: 48px;
+  line-height: 48px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--white);
+  padding-left: 23px;
+  padding-right: 23px;
+  cursor: pointer;
+  background: var(--gray1);
+  border: none;
+  border-radius: 3px;
+}
+#pz-gdpr-btn-closex {
+  display: block;
+  position: absolute;
+  right: 25px;
+  top: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  --x-height: 44px;
+  --x-stroke-length: 17px;
+  height: var(--x-height);
+  width: var(--x-height);
+}
+#pz-gdpr-btn-closex:after,
+#pz-gdpr-btn-closex:before {
+  position: absolute;
+  top: var(--x-height) / 2;
+  left: calc((var(--x-height) - var(--x-stroke-length)) / 2);
+  width: var(--x-stroke-length);
+  height: 2px;
+  content: "";
+  border-radius: 1px;
+  background: var(--gray1);
+  transform-origin: 50% 50%;
+  transform: rotate(45deg);
+}
+#pz-gdpr-btn-closex:before {
+  transform: rotate(-45deg);
+}
+#pz-gdpr-btn-closex:hover #pz-gdpr-btn-closex:after,
+#pz-gdpr-btn-closex:hover #pz-gdpr-btn-closex:before {
+  background: var(--gray3);
+}
+@media (min-width: 769px) {
+  #pz-gdpr-banner {
+    justify-content: center;
+    height: 220px;
+  }
+  #pz-gdpr .banner-text {
+    font-size: 14px;
+  }
+  #banner-text-wrapper,
+  #pz-gdpr-btns {
+    padding-left: 25px;
+  }
+  #pz-gdpr-btns {
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    max-width: 300px;
+    min-width: 250px;
+    padding-right: 25px;
+  }
+  #pz-gdpr-btn-accept {
+    margin-bottom: 10px;
+  }
+}
+@media (min-width: 444px) and (max-width: 902px) {
+  #pz-gdpr .banner-text,
+  #pz-gdpr .banner-title {
+    font-size: 13px;
+    margin-right: 0;
+  }
+}
+@media (max-width: 444px) {
+  .pz-snackbar {
+    max-width: 78vw !important;
+  }
+}
+@media (max-width: 768px) {
+  .pz-snackbar {
+    max-width: 339px;
+    bottom: 16px;
+    right: 16px;
+    font-size: 14px;
+  }
+  #pz-gdpr-banner {
+    flex-wrap: wrap;
+    height: 320px;
+  }
+  #banner-text-wrapper {
+    margin-left: 25px;
+    margin-right: 25px;
+  }
+  #pz-gdpr .banner-text {
+    font-size: 12px;
+    line-height: 17px;
+  }
+  #pz-gdpr .banner-text,
+  #pz-gdpr .banner-title {
+    margin-right: 0;
+  }
+  #pz-gdpr-btn-closex {
+    top: 12px;
+    right: 35px;
+    border-left: 1px solid var(--gray3);
+  }
+  #pz-gdpr-btns {
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-left: 25px;
+  }
+  #pz-gdpr-btn-accept,
+  #pz-gdpr-btn-reject {
+    margin-right: 10px;
+  }
+}

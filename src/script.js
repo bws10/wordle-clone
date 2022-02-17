@@ -13550,3 +13550,16 @@ function closeModal(e) {
     modal.removeEventListener("click", closeModal);
   }
 }
+
+window.addEventListener("resize", (ev) => {
+  sizeGrid(ev);
+});
+
+function sizeGrid(ev) {
+  var e = document.querySelector(".grid-container"),
+    a = Math.min(Math.floor(e.clientHeight * (5 / 6)), 350),
+    s = 6 * Math.floor(a / 5);
+  console.log(e.clientHeight);
+  (gameGrid.style.width = "".concat(a, "px")),
+    (gameGrid.style.height = "".concat(s, "px"));
+}
