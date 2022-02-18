@@ -120,7 +120,7 @@ body {
 }
 
 .tile[data-state=present] {
-  background-color: #b59f3b;
+  background-color: #8f31b4;
 }
 
 .tile[data-state=correct] {
@@ -217,7 +217,7 @@ body {
 }
 
 .key[data-state=present] {
-  background-color: #b59f3b;
+  background-color: #8f31b4;
 }
 
 .key[data-state=correct] {
@@ -234,7 +234,7 @@ body {
 }
 
 .key[data-state=present]:hover {
-  background-color: #8f7d2e;
+  background-color: #6f268c;
 }
 
 .key[data-state=correct]:hover {
@@ -317,12 +317,12 @@ body {
 
 .alert-W-L.win {
   background-color: #4fcaa1;
-  color: #d7dadc;
+  color: #0a515e;
   border: 3px solid #d7dadc;
 }
 
 .alert-W-L.lose {
-  background-color: #b59f3b;
+  background-color: #8f31b4;
   color: #d7dadc;
   border: 3px solid #d7dadc;
 }
@@ -379,7 +379,7 @@ body {
   opacity: 1;
   position: relative;
   background: #4fcaa1;
-  color: #d7dadc;
+  color: #0a515e;
   border: 2px solid #818384;
   padding: 0.5em;
   cursor: pointer;
