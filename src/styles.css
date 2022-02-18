@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
 *,
 *::before,
 *::after {
@@ -6,11 +7,12 @@
 
 html {
   height: 100%;
+  background: #0a515e;
 }
 
 body {
-  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
-  background: #538d4e;
+  background: #00010f;
+  font-family: "Ubuntu", sans-serif;
   font-size: clamp(0.5rem, 2.5vmin, 1.5rem);
   height: 100%;
   margin: 0;
@@ -19,6 +21,7 @@ body {
 }
 
 .header {
+  background: #0a515e;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -67,7 +70,7 @@ body {
   height: calc(100% - 50px);
   display: flex;
   flex-direction: column;
-  background-color: #000;
+  background-color: #00010f;
 }
 
 .grid-container {
@@ -121,7 +124,8 @@ body {
 }
 
 .tile[data-state=correct] {
-  background-color: #538d4e;
+  background-color: #4fcaa1;
+  color: #0a515e;
 }
 
 .tile[data-state=absent] {
@@ -217,7 +221,8 @@ body {
 }
 
 .key[data-state=correct] {
-  background-color: #538d4e;
+  background-color: #4fcaa1;
+  color: #0a515e;
 }
 
 .key[data-state=absent] {
@@ -233,7 +238,7 @@ body {
 }
 
 .key[data-state=correct]:hover {
-  background-color: #406c3c;
+  background-color: #35b188;
 }
 
 .key[data-state=absent]:hover {
@@ -311,7 +316,7 @@ body {
 }
 
 .alert-W-L.win {
-  background-color: #538d4e;
+  background-color: #4fcaa1;
   color: #d7dadc;
   border: 3px solid #d7dadc;
 }
@@ -328,7 +333,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: #000;
+  background: #00010f;
   background: rgba(0, 0, 0, 0.575);
   z-index: 2;
   display: flex;
@@ -363,6 +368,7 @@ body {
 }
 
 .share-msg {
+  font-family: Arial, Helvetica, sans-serif;
   color: #d7dadc;
   font-size: 1.15rem;
   white-space: pre;
@@ -372,7 +378,7 @@ body {
 .btn-share {
   opacity: 1;
   position: relative;
-  background: #538d4e;
+  background: #4fcaa1;
   color: #d7dadc;
   border: 2px solid #818384;
   padding: 0.5em;

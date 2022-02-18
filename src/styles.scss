@@ -1,10 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+
 $key-color: #d7dadc;
 $key-bg: #818384;
 $tile-border: #3a3a3c;
 $tile-border-active: #565758;
 $absent: #3a3a3c;
-$correct: #538d4e;
+// $correct: #538d4e;
+$correct: #4fcaa1;
 $present: #b59f3b;
+$primary: #0a515e;
+$secondary: #5ca6b3;
+$accent: #4fcaa1;
+$darkBG: rgb(0, 1, 15);
+$ff: "Ubuntu", sans-serif;
 $header-height: 50px;
 $keyboard-height: 200px;
 $game-max-width: 500px;
@@ -16,10 +24,11 @@ $game-max-width: 500px;
 }
 html {
   height: 100%;
+  background: $primary;
 }
 body {
-  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
-  background: $correct;
+  background: $darkBG;
+  font-family: $ff;
   font-size: clamp(0.5rem, 2.5vmin, 1.5rem);
   height: 100%;
 
@@ -29,6 +38,7 @@ body {
 }
 
 .header {
+  background: $primary;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -40,6 +50,7 @@ body {
   border-bottom: 1px solid $key-color;
   .title {
     font-weight: 700;
+    // color: $accent;
     font-size: clamp(1rem, 5vmin, 2rem);
     line-height: 100%;
     letter-spacing: 0.01em;
@@ -103,7 +114,7 @@ body {
   height: calc(100% - $header-height);
   display: flex;
   flex-direction: column;
-  background-color: #000;
+  background-color: $darkBG;
 }
 
 .grid-container {
@@ -151,6 +162,7 @@ body {
 }
 .tile[data-state="correct"] {
   background-color: $correct;
+  color: $primary;
 }
 .tile[data-state="absent"] {
   background-color: $absent;
@@ -261,6 +273,7 @@ body {
 }
 .key[data-state="correct"] {
   background-color: $correct;
+  color: $primary;
 }
 .key[data-state="absent"] {
   background-color: $absent;
@@ -356,7 +369,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: #000; // fallback
+  background: $darkBG; // fallback
   background: rgba(0, 0, 0, 0.575);
   z-index: 2;
   display: flex;
@@ -390,6 +403,7 @@ body {
   text-align: center;
 }
 .share-msg {
+  font-family: Arial, Helvetica, sans-serif;
   color: $key-color;
   font-size: 1.15rem;
   white-space: pre;
