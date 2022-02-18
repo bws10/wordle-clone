@@ -120,7 +120,7 @@ body {
 }
 
 .tile[data-state=present] {
-  background-color: #8f31b4;
+  background-color: #b4317d;
 }
 
 .tile[data-state=correct] {
@@ -217,7 +217,7 @@ body {
 }
 
 .key[data-state=present] {
-  background-color: #8f31b4;
+  background-color: #b4317d;
 }
 
 .key[data-state=correct] {
@@ -234,7 +234,7 @@ body {
 }
 
 .key[data-state=present]:hover {
-  background-color: #6f268c;
+  background-color: #8c2661;
 }
 
 .key[data-state=correct]:hover {
@@ -322,7 +322,7 @@ body {
 }
 
 .alert-W-L.lose {
-  background-color: #8f31b4;
+  background-color: #b4317d;
   color: #d7dadc;
   border: 3px solid #d7dadc;
 }
