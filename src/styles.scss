@@ -9,7 +9,7 @@ $absent: #3a3a3c;
 $correct: #4fcaa1;
 $present: #b4317d;
 $primary: #0a515e;
-$secondary: #5ca6b3;
+$secondary: #112b30;
 $accent: #4fcaa1;
 $darkBG: rgb(0, 1, 15);
 $ff: "Ubuntu", sans-serif;
@@ -27,7 +27,7 @@ html {
   background: $primary;
 }
 body {
-  background: $darkBG;
+  background: $primary;
   font-family: $ff;
   font-size: clamp(0.5rem, 2.5vmin, 1.5rem);
   height: 100%;
@@ -388,7 +388,7 @@ body {
 }
 .modal-content {
   // opacity: 1;
-  background-color: rgb(21, 41, 30);
+  background-color: $secondary;
   width: 80%;
   display: flex;
   flex-direction: column;
@@ -427,6 +427,6 @@ body {
   touch-action: manipulation;
 }
 .btn-share svg {
-  fill: $key-color;
+  fill: $primary;
   height: 1.5rem;
 }

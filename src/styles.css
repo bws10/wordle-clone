@@ -11,7 +11,7 @@ html {
 }
 
 body {
-  background: #00010f;
+  background: #0a515e;
   font-family: "Ubuntu", sans-serif;
   font-size: clamp(0.5rem, 2.5vmin, 1.5rem);
   height: 100%;
@@ -352,7 +352,7 @@ body {
 }
 
 .modal-content {
-  background-color: #15291e;
+  background-color: #112b30;
   width: 80%;
   display: flex;
   flex-direction: column;
@@ -394,7 +394,7 @@ body {
 }
 
 .btn-share svg {
-  fill: #d7dadc;
+  fill: #0a515e;
   height: 1.5rem;
 }
 
